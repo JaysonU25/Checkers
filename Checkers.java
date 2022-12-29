@@ -89,7 +89,7 @@ public class Checkers {
                 return false;
             } else if (board[parseI(move.charAt(0))][parseI(move.charAt(1))].equals(player)) { // Checks to see if the space is occupied by the current player's piece
                 return false;
-            } else if (jumpAvail(board, player)){
+            } else if (jumpAvail(board, player, "")){
                 if(player.equals("1") && board[parseI(move.charAt(0))][parseI(move.charAt(1))].charAt(0) != '2'){
                     return false;
                 } else if(player.equals("2") && board[parseI(move.charAt(0))][parseI(move.charAt(1))].charAt(0) != '1'){
@@ -180,75 +180,72 @@ public class Checkers {
     }
 
     // Checks to see if the player has a jump available
-    private static boolean jumpAvail(String[][] board, String player){
-        String piece = "";
-        for(int rows = 1; rows < board[0].length - 1 ; rows++) {
-            for (int columns = 1; columns < board.length - 1; columns++) {
-                if (board[rows][columns].equals(player)) {
-                    piece = String.valueOf(rows);
-                    piece += String.valueOf(columns);
+    private static boolean jumpAvail(String[][] board, String player, String piece){
+        if(piece == "") {
+            for (int rows = 1; rows < board[0].length - 1; rows++) {
+                for (int columns = 1; columns < board.length - 1; columns++) {
+                    if (board[rows][columns].equals(player)) {
+                        piece = String.valueOf(rows);
+                        piece += String.valueOf(columns);
 
-                    if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
-                        System.out.println("You have to jump!");
-                        return true;
+                        if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
+                            System.out.println("You have to jump!");
+                            return true;
 
-                    } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
-                        System.out.println("You have to jump!");
-                        return true;
-                    } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
-                        System.out.println("You have to jump!");
-                        return true;
+                        } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // is the jump to the right in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // is the jump to the left in the board
+                            System.out.println("You have to jump!");
+                            return true;
+                        }
                     }
                 }
             }
+        } else {
+            if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
+                System.out.println("You have to jump again!");
+                return true;
+
+            } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
+                System.out.println("You have to jump again!");
+                return true;
+            } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
+                System.out.println("You have to jump again!");
+                return true;
+            }
         }
             return false;
-    }
-
-    // Checks to see if the player has another jump available
-    private static boolean jumpAvail(String[][] board, String player, String piece){
-        if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if ((player.equals("1") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if ((player.equals("2") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
-            System.out.println("You have to jump again!");
-            return true;
-
-        } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) - 1].charAt(0) == '2') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if (isKing(board, piece) && (player.equals("1") && board[parseI(piece.charAt(0)) + 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) + 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) - 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) - 2].equals("0"))) { // if the jump is to the left in the board
-            System.out.println("You have to jump again!");
-            return true;
-        } else if (isKing(board, piece) && (player.equals("2") && board[parseI(piece.charAt(0)) - 1][parseI(piece.charAt(1)) + 1].charAt(0) == '1') && (board[parseI(piece.charAt(0)) - 2][parseI(piece.charAt(1)) + 2].equals("0"))) { // if the jump is to the right in the board
-            System.out.println("You have to jump again!");
-            return true;
-        }
-        return false;
     }
 
     // Allows a piece to jump over another piece
